@@ -50,7 +50,7 @@ const Input = ({
         {label}
       </label>
       <div className={classNames(styles.inputWrapper, errorProp && styles.inputWrapperError)}>
-        {icon && <Icon />}
+        {icon && <Icon type={icon}/>}
         <input 
           id={id}
           type={onCheckType()}
