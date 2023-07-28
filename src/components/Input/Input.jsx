@@ -38,6 +38,9 @@ const Input = ({
     onChange(event);
   }
 
+  const iconType = isPasswordVisible ? 'show' : 'hide';
+  const iconLabel = `비밀번호 ${isPasswordVisible ? '표시' : '감춤'}`
+
   return (
     <div className={classNames(styles.formControl, className)}>
       <label
@@ -47,20 +50,20 @@ const Input = ({
         {label}
       </label>
       <div className={classNames(styles.inputWrapper, errorProp && styles.inputWrapperError)}>
-        {icon ? <Icon /> : null}
+        {icon && <Icon />}
         <input 
           id={id}
-          type={onCheckType}
+          type={onCheckType()}
           name={name}
           className={classNames(styles.input)}
           placeholder={placeholder}
           readOnly={readOnly}
           disabled={disabled}
-          value={value}
+          value={inputValue}
           onChange={onHandleChange}
           { ...resProps }
         />
-        {password ? (
+        {password && (
           <button
             type='button'
             className={styles.button}
@@ -69,7 +72,7 @@ const Input = ({
           >
             <Icon type={iconType} alt={iconLabel} title={iconLabel} />
           </button>
-        ): null}
+        )}
       </div>
       {errorProp && (
         <span role='alert' className={styles.error}>
