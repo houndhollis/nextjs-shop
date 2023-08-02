@@ -9,6 +9,8 @@ import Loader from '@/components/loader/Loader';
 import Input from '@/components/Input/Input';
 import AutoSignInCheckBox from '@/components/autoSignInCheckBox/autoSignInCheckBox';
 import Divider from '@/components/divider/Divider';
+import Button from '@/components/button/Button';
+import Link from 'next/link';
 
 const LoginClient = () => {
 
@@ -70,12 +72,29 @@ const LoginClient = () => {
               />
             </div>
             <div className={styles.buttonGroup}>
-              Button
+              <Button
+                type='submit'
+                width='100%'
+              >
+                로그인 
+              </Button>
+
               <Divider/>
-              Button
+              <Button
+                width='100%'
+                secondary
+              >
+                <Link href={'/register'}>
+                  회원가입
+                </Link>
+              </Button>
               <Divider/>
               <div>
-                버튼
+                <Button 
+                  onClick={signInWithGoogle}
+                >
+                  구글로그인
+                </Button>
               </div>
             </div>
           </form>
