@@ -1,8 +1,11 @@
-import React from 'react'
+import React from 'react';
+import ResetClient from './ResetClient';
 
 const Page = () => {
   return (
-    <div>Page</div>
+    <>
+      <ResetClient/>
+    </>
   )
 }
 
