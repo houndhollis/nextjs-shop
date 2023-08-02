@@ -38,7 +38,7 @@ const Tooltip = ({
     }
 
   }
-  console.log(onSetOrientationClass(orientation))
+
   return (
     <span
       role='tooltip'
