@@ -12,7 +12,7 @@ import Divider from '@/components/divider/Divider';
 import Button from '@/components/button/Button';
 import Link from 'next/link';
 import { toast } from 'react-toastify';
-import { signInWithEmailAndPassword } from 'firebase/auth';
+import { GoogleAuthProvider, signInWithEmailAndPassword, signInWithPopup } from 'firebase/auth';
 import { auth } from '@/firebase/firebase';
 
 const LoginClient = () => {
@@ -37,15 +37,24 @@ const LoginClient = () => {
       redirectUser();
     })
     .catch((error) => {
-      console.log(error);
+      toast.error(error.message);
     })
     .finally(() => {
       setIsLoading(false);
     })
   }
 
-  const signInWithGoogle = () => {
-
+  const signInWithGoogle = (event) => {
+    event.preventDefault();
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+    .then((result) => {
+      toast.success('로그인에 성공하였습니다.');
+      redirectUser();
+    })
+    .catch((error) => {
+      toast.error(error.message);
+    })
   }
 
   return (
