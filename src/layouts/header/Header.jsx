@@ -8,12 +8,14 @@ import { auth } from '@/firebase/firebase';
 import { toast } from 'react-toastify';
 import { useRouter, usePathname } from 'next/navigation';
 import InnerHeader from '../innerHeader/InnerHeader';
+import { useDispatch } from 'react-redux';
+import { REMOVE_ACTIVE_USER, SET_ACTIVE_USER } from '@/redux/slice/authSlice';
 
 
 const Header = () => {
   
   const [displayName, setDisplayName] = React.useState();
-
+  const dispatch = useDispatch();
   const pathname = usePathname();
   const router = useRouter();
   
@@ -28,12 +30,19 @@ const Header = () => {
         } else {
           setDisplayName(user.displayName);
         }
+
+        dispatch(SET_ACTIVE_USER({
+          email: user.email,
+          userName: user.displayName ? user.displayName : displayName,
+          userID : user.uid
+        }))
+
       } else {
         setDisplayName('');
-        // 유저 정보를 리덕스 스토어에서 지우기
+        dispatch(REMOVE_ACTIVE_USER());
       }
     })
-  }, [displayName])
+  }, [displayName, dispatch])
 
   const onLogout = (event) => {
     event.preventDafault();
