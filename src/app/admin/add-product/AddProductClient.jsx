@@ -6,6 +6,12 @@ import { useRouter } from 'next/navigation';
 import React from 'react';
 import styles from './AddProduct.module.scss';
 
+// 파이어 베이스
+import { db, storage  } from '@/firebase/firebase';
+import { addDoc, collection, Timestamp } from 'firebase/firestore';
+import { getDownloadURL, ref, uploadBytesResumable } from 'firebase/storage';
+import { toast } from 'react-toastify';
+
 const categories = [
   { id: 1, name: 'Laptop'},
   { id: 2, name: 'Electronics'},
@@ -47,12 +53,52 @@ const AddProductClient = () => {
   }
 
   const handleImageChange = (event) => {
-
+    const file = event.target.files[0];
+    if (file) {
+      const storageRef = ref(storage, `images/${Date.now()}${file.name}`)
+      const uploadTask = uploadBytesResumable(storageRef, file);
+  
+      uploadTask.on('state_changed', 
+        (snapshot) => {
+          const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          setUploadProgress(progress);
+        },
+        (error) => {
+          toast.error(error.message);
+        },
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            setProduct({ ...product, imageURL : downloadURL });
+            toast.success('이미지를 성공적으로 업로드 하였습니다.')
+          })
+  
+        }
+      )
+    }
   }
 
   const addProduct = (event) => {
     event.preventDefault();
-
+    setIsLoading(true);
+    try{
+      addDoc(collection(db, 'products'), {
+        name: product.name,
+        imageURL: product.imageURL,
+        price: Number(product.price),
+        category: product.category,
+        brand: product.brand,
+        desc: product.desc,
+        createdAt: Timestamp.now().toDate()
+      })
+      setIsLoading(false);
+      setUploadProgress(0);
+      setProduct({ ...initialState });
+      toast.success('상품을 저장했습니다.');
+      router.push('/admin/all-products');
+    } catch (error) {
+      setIsLoading(false);
+      toast.error(error.message);
+    }
   }
 
   return (
