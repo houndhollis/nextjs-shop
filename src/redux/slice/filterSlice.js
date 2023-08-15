@@ -37,11 +37,32 @@ const filterSlice = createSlice({
       let tempProducts = [];
       tempProducts = products.filter((product) => product.price <= price);
       state.filteredProducts = tempProducts;
+    },
+    FILTER_BY: (state, action) => {
+      const { products, price, brand, category } = action.payload;
+      let tempProducts = [];
+
+      if (category === 'All') {
+        tempProducts = products;
+      } else {
+        tempProducts = products.filter((product) => product.category === category);
+      }
+      if (brand === 'All') {
+        tempProducts = tempProducts;
+      } else {
+        tempProducts = tempProducts.filter((product) => product.brand === brand);
+      }
+      tempProducts = tempProducts.filter((product) => product.price <= price);
+      
+      state.filteredProducts = tempProducts;
+    },
+    SORT_PRODUCTS: (state, aciton) => {
+      const { products, sort } = aciton.payload;
     }
   }
 })
 
-export const { FILTER_BY_BRAND, FILTER_BY_CATEGORY, FILTER_BY_PRICE } = filterSlice.actions;
+export const { FILTER_BY_BRAND, FILTER_BY_CATEGORY, FILTER_BY_PRICE, FILTER_BY, SORT_PRODUCTS } = filterSlice.actions;
 
 export const selectFilterProducts = (state) => state.filter.filteredProducts;
 
