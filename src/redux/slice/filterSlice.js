@@ -58,6 +58,21 @@ const filterSlice = createSlice({
     },
     SORT_PRODUCTS: (state, aciton) => {
       const { products, sort } = aciton.payload;
+      let tempProducts = [];
+      if (sort === 'latest') {
+        tempProducts = products;
+      }
+      if (sort === 'lowest-price') {
+        tempProducts = products.slice().sort((a,b) => {
+          return a.price - b.price;
+        })
+      }
+      if (sort === 'highest-price') {
+        tempProducts = products.slice().sort((a,b) => {
+          return b.price - a.price;
+        })
+      }
+      state.filteredProducts = tempProducts;
     }
   }
 })
