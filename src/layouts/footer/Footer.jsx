@@ -125,7 +125,6 @@ const Footer = () => {
               </Link>
             </li>
           </ul>
-          <div>푸터바보</div>
         </div>
       </div>
     </div>
