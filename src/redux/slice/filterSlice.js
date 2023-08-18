@@ -73,11 +73,20 @@ const filterSlice = createSlice({
         })
       }
       state.filteredProducts = tempProducts;
+    },
+    FILTER_BY_SEARCH : (state, action) => {
+      const { products, search } = action.payload;
+
+      const tempProducts = products.filter((product) => {
+        return product.name.toLowerCase().includes(search.toLowerCase()) ||
+        product.category.toLowerCase().includes(search.toLowerCase())
+      })
+      state.filteredProducts = tempProducts;
     }
   }
 })
 
-export const { FILTER_BY_BRAND, FILTER_BY_CATEGORY, FILTER_BY_PRICE, FILTER_BY, SORT_PRODUCTS } = filterSlice.actions;
+export const { FILTER_BY_BRAND, FILTER_BY_CATEGORY, FILTER_BY_PRICE, FILTER_BY, SORT_PRODUCTS, FILTER_BY_SEARCH } = filterSlice.actions;
 
 export const selectFilterProducts = (state) => state.filter.filteredProducts;
 
