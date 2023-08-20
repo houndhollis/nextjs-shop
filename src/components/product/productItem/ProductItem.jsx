@@ -6,8 +6,19 @@ import Image from 'next/image';
 import priceFormat from '@/utils/priceFormat';
 import { Rating } from 'react-simple-star-rating';
 import roketBadgeIcon from '@/assets/badge-rocket.svg';
+import useFetchDocuments from '@/hooks/useFetchDocuments';
 
 const ProductItem = ({ id, name, price, imageURL }) => {
+
+  // const { documents } = useFetchDocuments('reviews', ['productID', '==', id])
+
+  // let productRating = 0;
+  // documents.map((doc) => {
+  //   productRating = productRating + doc.rate;
+  // })
+
+  // const rating = productRating / productRating.length
+
 
   const shortenText = (text, n) => {
     if(text.length > n) {
@@ -39,14 +50,15 @@ const ProductItem = ({ id, name, price, imageURL }) => {
               size={17}
               readonly
               initialValue={1}
+              // initialValue={Number.isNaN(rating) ? 0 : rating}
             />
             <span className={styles.ratingCount}>
-              (3)
+              {/* ({documents.length}) */}
+              (1)
             </span>
           </div>
         </div>
       </div>
-
     </div>
   )
 }
