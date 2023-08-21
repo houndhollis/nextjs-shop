@@ -4,7 +4,6 @@ import { collection, where, query, getDocs } from 'firebase/firestore';
 import { db } from '@/firebase/firebase';
 
 const useFetchDocuments = (collectionName, agr) => {
-
   const [documents, setDocuments] = React.useState([]);
 
   const getDocuments = React.useCallback(async() => {
@@ -13,7 +12,11 @@ const useFetchDocuments = (collectionName, agr) => {
    let documentsArray = [];
 
    querySnapshot.forEach(doc => {
-     documentsArray.push(doc.data());
+     const data = {
+      id: doc.id,
+      ...doc.data()
+     }
+     documentsArray.push(data);
    });
 
    setDocuments(documentsArray);
