@@ -1,8 +1,11 @@
-import React from 'react'
+import React from 'react';
+import OrderHistoryClient from './orderHistoryClient';
 
 const OrderHistory = () => {
+
+
   return (
-    <div>OrderHistory</div>
+    <OrderHistoryClient/>
   )
 }
 
